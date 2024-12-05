@@ -1,0 +1,55 @@
+<div class="reviews-container bg-gray-100 p-8">
+    
+    <!-- Sección de comentarios -->
+    <div class="max-w-6xl mx-auto">
+      <h3 class="text-3xl font-bold text-center text-gray-800 mb-6">
+        Opiniones de Nuestros Clientes
+      </h3>
+  
+      <!-- Dividimos los comentarios en 2 columnas -->
+      <!-- Dividimos los comentarios en 2 columnas -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div
+      *ngFor="let review of reviews"
+      class="bg-white p-6 rounded-lg shadow-lg border-l-4 border-red-600"
+    >
+      <div class="flex items-center justify-between mb-3">
+        <!-- Información del usuario y la fecha -->
+        <div>
+          <span class="font-semibold text-lg text-gray-800">
+            {{ review.user }}
+          </span>
+          <span class="ml-3 text-sm text-gray-500">
+            {{ review.date }}
+          </span>
+        </div>
+      </div>
+  
+      <!-- Descripción de la reseña -->
+      <p class="text-gray-700">{{ review.description }}</p>
+    </div>
+  </div>
+  
+    <br>
+    <!-- Formulario para crear nueva reseña -->
+    <form *ngIf="role === 'user'" (ngSubmit)="addReview()" class="bg-black p-6 rounded-lg shadow-xl mb-8 max-w-xl mx-auto border-spacing-3">
+        <h3 class="text-2xl font-semibold text-white mb-4">
+          Agrega tu Reseña
+        </h3>
+        <h4 class=" font-semibold text-white mb-4">{{username}}:</h4>
+        <textarea
+          [(ngModel)]="newReview.description"
+          name="description"
+          placeholder="Escribe tu comentario"
+          required
+          class="w-full p-3 border border-gray-300 rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-red-600"
+        ></textarea>
+        <button
+          type="submit"
+          class="w-full bg-red-600 text-white py-2 px-4 rounded-lg hover:bg-red-700 transition duration-300"
+        >
+          Agregar Reseña
+        </button>
+      </form>
+  </div>
+  

@@ -1,0 +1,304 @@
+<div style="padding: 50px;">
+    <h1 class="text-center text-4xl font-extrabold text-gray-900 mb-8">Agregar Producto</h1>
+
+<section class="container mx-auto px-6 py-12 bg-gray-800 rounded-lg shadow-lg">
+  <h2 class="text-2xl text-white font-semibold mb-6">Agregar Nuevo Producto</h2>
+  <form #productForm="ngForm" (ngSubmit)="addProduct()">
+    <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+      
+      <!-- Título -->
+      <div class="flex flex-col">
+        <label for="title" class="text-red-600 font-medium mb-2">Título</label>
+        <input
+          type="text"
+          id="title"
+          name="title"
+          [(ngModel)]="newProduct.title"
+          class="border-2 px-4 py-3 rounded-lg bg-gray-900 text-white focus:outline-none focus:ring-2 focus:ring-red-500"
+          required
+        />
+      </div>
+      
+      <!-- Precio -->
+      <div class="flex flex-col">
+        <label for="price" class="text-red-600 font-medium mb-2">Precio</label>
+        <input
+          type="number"
+          id="price"
+          name="price"
+          [(ngModel)]="newProduct.price"
+          class="border-2 px-4 py-3 rounded-lg bg-gray-900 text-white focus:outline-none focus:ring-2 focus:ring-red-500"
+          required
+        />
+      </div>
+      
+      <!-- Descripción -->
+      <div class="flex flex-col col-span-2">
+        <label for="description" class="text-red-600 font-medium mb-2">Descripción</label>
+        <textarea
+          id="description"
+          name="description"
+          [(ngModel)]="newProduct.description"
+          class="border-2 px-4 py-3 rounded-lg bg-gray-900 text-white focus:outline-none focus:ring-2 focus:ring-red-500"
+          required
+        ></textarea>
+      </div>
+      
+      <!-- Categoría -->
+<div class="flex flex-col">
+    <label for="category" class="text-red-600 font-medium mb-2">Categoría</label>
+    <select
+      id="category"
+      name="category"
+      [(ngModel)]="newProduct.category"
+      class="border-2 px-4 py-3 rounded-lg bg-gray-900 text-white focus:outline-none focus:ring-2 focus:ring-red-500"
+      required
+    >
+      <option value="Shoes">Shoes</option>
+      <option value="Shirts">Shirts</option>
+      <option value="Jeans">Jeans</option>
+      <option value="Accessories">Accessories</option>
+    </select>
+  </div>
+
+      <!-- Tallas -->
+      <div class="flex flex-col col-span-2">
+        <label for="tallas" class="text-red-600 font-medium mb-2">Tallas (separadas por comas)</label>
+        <textarea
+          id="tallas"
+          [(ngModel)]="newProduct.tallas"
+          name="tallas"
+          required
+          class="border-2 px-4 py-3 rounded-lg bg-gray-900 text-white focus:outline-none focus:ring-2 focus:ring-red-500"
+        ></textarea>
+      </div>
+
+      <!-- Imágenes -->
+      <div class="flex flex-col col-span-2">
+        <label for="images" class="text-red-600 font-medium mb-2">Imágenes (separadas por comas)</label>
+        <textarea
+          id="images"
+          [(ngModel)]="newProduct.images"
+          name="images"
+          required
+          class="border-2 px-4 py-3 rounded-lg bg-gray-900 text-white focus:outline-none focus:ring-2 focus:ring-red-500"
+        ></textarea>
+      </div>
+
+      <!-- Botón de Enviar -->
+      <div class="flex justify-center col-span-2 mt-6">
+        <button
+          type="submit"
+          class="bg-red-600 text-white font-semibold py-3 px-8 rounded-lg hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-600"
+          [disabled]="!productForm.form.valid"
+        >
+          Agregar Producto
+        </button>
+      </div>
+    </div>
+  </form>
+</section>
+ 
+      <div style="padding: 50px;">
+        <h1 class="text-center text-3xl font-bold mb-6">Editar</h1>
+      
+        <section class="container mx-auto px-4 py-12 bg-gray-900 rounded-lg shadow-lg">
+            <h2 class="text-3xl font-bold text-white mb-8 text-center">Edit Product</h2>
+            <form #searchForm="ngForm" (ngSubmit)="searchProduct()" class="max-w-xl mx-auto">
+              <div class="grid grid-cols-1 gap-6">
+                <div class="flex flex-col">
+                  <label for="productId" class="text-red-500 font-semibold mb-2">Product ID</label>
+                  <input
+                    type="text"
+                    id="productId"
+                    name="productId"
+                    [(ngModel)]="searchId"
+                    class="border border-gray-700 px-4 py-3 rounded-lg bg-gray-800 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500"
+                    placeholder="Enter product ID"
+                    required
+                  />
+                </div>
+                <div class="flex justify-center mt-6">
+                  <button
+                    type="submit"
+                    class="bg-red-600 text-white font-semibold py-3 px-6 rounded-lg hover:bg-red-700 transition duration-300"
+                    [disabled]="!searchForm.form.valid"
+                  >
+                    Search
+                  </button>
+                </div>
+              </div>
+            </form>
+          
+            <!-- Mostrar la información del producto encontrado -->
+            <div *ngIf="showEditForm" class="mt-12 bg-gray-800 p-8 rounded-lg shadow-lg text-white">
+              <h3 class="text-2xl font-bold text-center mb-6">Edit Product Details</h3>
+              <form #editForm="ngForm" (ngSubmit)="updateProduct()">
+                <div class="grid grid-cols-1 gap-6">
+                  <div class="flex flex-col">
+                    <label for="editTitle" class="font-semibold text-gray-300 mb-2">Title</label>
+                    <input
+                      type="text"
+                      id="editTitle"
+                      name="editTitle"
+                      [(ngModel)]="selectedProduct.title"
+                      class="border border-gray-700 px-4 py-3 rounded-lg bg-gray-800 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500"
+                      required
+                    />
+                  </div>
+                  <div class="flex flex-col">
+                    <label for="editPrice" class="font-semibold text-gray-300 mb-2">Price</label>
+                    <input
+                      type="number"
+                      id="editPrice"
+                      name="editPrice"
+                      [(ngModel)]="selectedProduct.price"
+                      class="border border-gray-700 px-4 py-3 rounded-lg bg-gray-800 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500"
+                      required
+                    />
+                  </div>
+                  <div class="flex flex-col">
+                    <label for="editDescription" class="font-semibold text-gray-300 mb-2">Description</label>
+                    <textarea
+                      id="editDescription"
+                      name="editDescription"
+                      [(ngModel)]="selectedProduct.description"
+                      class="border border-gray-700 px-4 py-3 rounded-lg bg-gray-800 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500"
+                      required
+                      placeholder="Product description"
+                    ></textarea>
+                  </div>
+                  <div class="flex flex-col">
+                    <label for="editCategory" class="font-semibold text-gray-300 mb-2">Category</label>
+                    <input
+                      type="text"
+                      id="editCategory"
+                      name="editCategory"
+                      [(ngModel)]="selectedProduct.category"
+                      class="border border-gray-700 px-4 py-3 rounded-lg bg-gray-800 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500"
+                      required
+                      placeholder="Product category"
+                    />
+                  </div>
+                  <div class="flex justify-center mt-6">
+                    <button
+                      type="submit"
+                      class="bg-green-600 text-white font-semibold py-3 px-6 rounded-lg hover:bg-green-700 transition duration-300"
+                    >
+                      Update Product
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </section>
+          
+      </div>
+      
+  
+      <h1 class="text-center text-3xl font-bold mb-6">Borrar</h1>
+      <section class="container mx-auto px-4 py-12">
+        <div class="space-y-6">
+          <div *ngFor="let item of productList">
+            <div class="flex items-center bg-gray-800 shadow-xl rounded-lg overflow-hidden w-full p-6 hover:bg-gray-700 transition duration-300">
+              <!-- Imagen del producto -->
+              <div class="w-24 h-24 flex-shrink-0">
+                <img class="w-full h-full object-contain rounded-lg border border-gray-700 bg-white" 
+                     src="{{item.images}}" alt="{{item.title}}" />
+              </div>
+      
+              <!-- Información del producto -->
+              <div class="flex-1 px-6 text-white">
+                <h3 class="text-xl font-semibold text-white">{{item.title}}</h3>
+                <p class="text-red-500 mt-2 font-medium">Price: ${{item.price}}</p>
+                <p class="text-gray-400 mt-2">Product ID: {{item._id}}</p>
+              </div>
+      
+              <!-- Botón de eliminar -->
+              <div class="ml-4">
+                <button 
+                  class="bg-red-500 text-white font-semibold px-6 py-3 rounded-lg hover:bg-red-600 transition duration-300"
+                  (click)="deleteProduct(item._id)">
+                  Delete
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+  </div>
+  <section class="container mx-auto px-4 py-12">
+
+    <h1 class="text-center text-3xl font-bold mb-6">Gestion de Usuarios</h1>
+
+  
+    <div class="space-y-6">
+      <div *ngFor="let user of users" class="flex items-center bg-gray-800 shadow-xl rounded-lg overflow-hidden w-full p-6 hover:bg-gray-700 transition duration-300">
+        <!-- Información del usuario -->
+        <div class="flex-1 px-6 text-white">
+          <h3 class="text-xl font-semibold">{{ user.username }}</h3>
+          <p class="text-red-500 mt-2">Role: {{ user.role }}</p>
+        </div>
+  
+        <!-- Botones de acciones -->
+        <div class="ml-4 flex space-x-4">
+          <button
+            class="bg-red-500 text-white font-semibold px-6 py-3 rounded-lg hover:bg-red-600 transition duration-300"
+            (click)="startEdit(user)">
+            Editar
+          </button>
+          <button
+            class="bg-black text-white font-semibold px-6 py-3 rounded-lg hover:bg-gray-800 transition duration-300"
+            (click)="deleteUser(user._id!)">
+            Eliminar
+          </button>
+        </div>
+      </div>
+    </div>
+  
+    <div class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50" *ngIf="isEditModalOpen">
+        <div class="bg-white rounded-lg shadow-lg p-8 max-w-md w-full">
+          <h2 class="text-xl font-bold mb-4 text-red-500">Editar Usuario</h2>
+      
+          <!-- Formulario de edición -->
+          <div class="mb-4">
+            <label for="username" class="block text-black font-semibold mb-2">Username</label>
+            <input
+              id="username"
+              [(ngModel)]="editedUser.username"
+              class="w-full p-2 border border-red-500 rounded"
+              placeholder="Nombre de usuario"
+              readonly
+            />
+          </div>
+          <div class="mb-4">
+            <label for="role" class="block text-black font-semibold mb-2">Rol</label>
+            <select
+              id="role"
+              [(ngModel)]="editedUser.role"
+              class="w-full p-2 border border-red-500 rounded"
+            >
+              <option value="admin">admin</option>
+              <option value="user">user</option>
+            </select>
+          </div>
+      
+          <!-- Botones de acción del modal -->
+          <div class="flex justify-end space-x-4">
+            <button
+              class="px-4 py-2 bg-gray-300 text-black font-bold rounded hover:bg-gray-400"
+              (click)="closeEditModal()">
+              Cancelar
+            </button>
+            <button
+              class="px-4 py-2 bg-red-500 text-white font-bold rounded hover:bg-red-600"
+              (click)="updateUser()">
+              Guardar
+            </button>
+          </div>
+        </div>
+      </div>      
+  </section>
+  
+      

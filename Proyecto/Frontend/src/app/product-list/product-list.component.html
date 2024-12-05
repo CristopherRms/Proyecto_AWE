@@ -1,0 +1,30 @@
+<div style="padding: 50px;">
+  <h1 class="text-center text-3xl font-bold mb-6">Store</h1>
+  <section class="container mx-auto px-4 py-12">
+    <h2 class="text-2xl font-bold text-black mb-6">Featured Products</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      @for(item of productList; track $index) {
+        <div class="bg-black shadow-lg rounded-lg overflow-hidden">
+          <div class="bg-white p-2">
+            <div class="relative w-full h-48">
+              <img 
+                class="absolute inset-0 w-full h-full object-contain" 
+                [src]="item.images" 
+                alt="{{ item.title }}">
+            </div>
+          </div>
+          <div class="p-4">
+            <h3 class="text-lg font-semibold text-white truncate">{{ item.title }}</h3>
+            <p class="text-red-500 mt-1 text-2xl">${{ item.price }}</p>
+            <p *ngIf="role === 'admin' "class="text-gray-400 mt-1 text-sm">ID: {{ item._id }}</p>
+            <button 
+              [routerLink]="['/individual', item._id]" 
+              class="mt-4 bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition duration-300">
+              Details
+            </button>
+          </div>
+        </div>
+      }
+    </div>
+  </section>
+</div>

@@ -1,0 +1,50 @@
+<app-header></app-header>
+<div class="min-h-screen bg-white text-black py-8">
+  <div class="container mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8">
+    <!-- Imagen del Producto -->
+    <div class="space-y-4"> 
+      <img 
+        [src]="imagenSeleccionada" 
+        alt="{{product.title}}" 
+        class="w-full h-96 object-contain rounded-md">
+      <div class="flex space-x-2">
+        <img 
+          *ngFor="let imagen of product.images" 
+          [src]="imagen" 
+          alt="{{product.title}}" 
+          class="w-20 h-20 object-cover aspect-square rounded-md cursor-pointer hover:opacity-75" 
+          (click)="cambiarImagen(imagen)">
+      </div>
+    </div>
+    
+    <!-- Detalles del Producto -->
+    <div>
+      <h1 class="text-3xl font-bold mb-4">{{ product.title }}</h1>
+      <p class="text-lg mb-4 text-red-500 font-semibold">$ {{ product.price }}</p>
+      <p class="text-gray-400 mb-6">{{ product.description }}</p>
+
+      <!-- Selección de Tallas -->
+      <div class="mb-4">
+        <h2 class="text-lg font-semibold mb-2">Selecciona una talla:</h2>
+        <div class="flex space-x-4">
+          <button 
+            *ngFor="let talla of product.tallas" 
+            (click)="seleccionarTalla(talla)" 
+            [ngClass]="{'bg-red-500 text-white': talla === tallaSeleccionada, 'bg-gray-700': talla !== tallaSeleccionada}" 
+            class="px-4 py-2 rounded-md">
+            {{ talla }}
+          </button>
+        </div>
+      </div>
+
+      <!-- Botón de Agregar al Carrito -->
+      <button 
+        *ngIf="role === 'user'|| !role"
+        class="mt-4 bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded-lg"
+        (click)="agregarAlCarrito()">
+        Agregar al carrito
+      </button>
+    </div>
+  </div>
+</div>
+<app-footer></app-footer>

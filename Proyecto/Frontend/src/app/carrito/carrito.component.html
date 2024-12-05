@@ -1,0 +1,72 @@
+<app-header></app-header>
+<div class="min-h-screen bg-white">
+  <div class="container mx-auto py-8">
+    <h1 class="text-3xl font-bold mb-6 text-center">Carrito de Compras</h1>
+
+    <!-- Mensaje de agradecimiento -->
+    <div
+      *ngIf="mensajeCompraVisible"
+      class="bg-green-500 text-white text-center py-4 mb-4 rounded-lg"
+    >
+      ¡Gracias por tu compra!
+    </div>
+
+    <!-- Lista de productos en el carrito -->
+    <div class="space-y-6" *ngIf="carrito.length; else carritoVacio">
+      <div
+        *ngFor="let item of carrito"
+        class="flex justify-between items-center bg-black p-4 rounded-lg"
+      >
+        <div class="flex items-center space-x-4">
+          <img
+            [src]="item.imagen"
+            alt="{{ item.nombre }}"
+            class="w-20 h-20 object-cover rounded-md"
+          />
+          <div>
+            <h2 class="text-red-700">{{ item.nombre }}</h2>
+            <p class="text-gray-400">{{ item.descripcion }}</p>
+            <p class="text-gray-400">Talla: {{ item.talla }}</p>
+          </div>
+        </div>
+
+        <div class="text-right">
+          <p class="text-xl font-semibold text-red-500">
+            $ {{ item.precio }}
+          </p>
+          <p class="text-gray-400">Cantidad: {{ item.cantidad }}</p>
+          <button
+            (click)="eliminarProducto(item.id, item.talla)"
+            class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md"
+          >
+            Eliminar
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Carrito vacío -->
+    <ng-template #carritoVacio>
+      <p class="text-center text-gray-500">Tu carrito está vacío.</p>
+    </ng-template>
+
+    <!-- Resumen del carrito -->
+    <div *ngIf="carrito.length" class="bg-black p-6 mt-8 rounded-lg text-right">
+      <p class="text-lg">Total:</p>
+      <p class="text-3xl font-bold text-red-500">$ {{ getTotal() }}</p>
+      <button
+        (click)="vaciarCarrito()"
+        class="mt-4 bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded-lg"
+      >
+        Vaciar carrito
+      </button>
+      <button
+        (click)="comprarCarrito()"
+        class="mt-4 bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded-lg"
+      >
+        Comprar
+      </button>
+    </div>
+  </div>
+</div>
+<app-footer></app-footer>

@@ -1,0 +1,73 @@
+<header class="bg-black shadow">
+  <div class="container mx-auto px-4 py-6 flex justify-between items-center">
+    <h1 [routerLink]="['/home']" class="text-4xl font-semibold text-red-600"><i>HEARTLESS</i></h1>
+    <nav class="flex items-center">
+      <ul class="flex space-x-4">
+        <li><a [routerLink]="['/categoria', 'Shoes']" class="text-2xl font-semibold text-white hover:text-red-600">Shoes</a></li>
+        <li><a [routerLink]="['/categoria', 'Shirts']" class="text-2xl font-semibold text-white hover:text-red-600">Shirts</a></li>
+        <li><a [routerLink]="['/categoria', 'Jeans']" class="text-2xl font-semibold text-white hover:text-red-600">Jeans</a></li>
+        <li><a [routerLink]="['/categoria', 'Accessories']" class="text-2xl font-semibold text-white hover:text-red-600">Accessories</a></li>
+      </ul>
+    </nav>
+    <div class="flex items-center space-x-5">
+      
+      <!-- Botón de Login -->
+      <button 
+        *ngIf="!role" 
+        [routerLink]="['/login']" 
+        id="login-btn" 
+        class="bg-red-600 hover:bg-red-800 text-white font-bold py-2 px-4 rounded">
+        Login
+      </button>
+
+      <!-- Botón del carrito -->
+      <button 
+        *ngIf="role === 'user'" 
+        [routerLink]="['/carrito']" 
+        class="relative flex items-center">
+        <img src="https://cdn-icons-png.flaticon.com/512/6136/6136434.png" alt="Carrito" width="30px" height="30px" />
+        <span class="absolute top-0 right-0 bg-red-600 text-white text-xs rounded-full px-2">
+          {{ carritoService.getCarrito().length }}
+        </span>
+      </button>
+
+      <!-- Botón de Administrar -->
+      <button 
+        *ngIf="role === 'admin'" 
+        [routerLink]="['/administrar']" 
+        id="admin-btn" 
+        class="bg-gray-700 hover:bg-gray-900 text-white font-bold py-2 px-4 rounded">
+        Administrar
+      </button>
+  <!-- Mostrar nombre del usuario si está disponible -->
+<span *ngIf="username" id="username" class="text-white">Hola, {{ username }}</span>
+
+      <div 
+      class="relative" 
+      (mouseenter)="toggleUserMenu(true)" 
+      (mouseleave)="toggleUserMenu(false)">
+      
+      <!-- Botón circular con foto de usuario -->
+      <button 
+        *ngIf="role === 'admin' || role === 'user'" 
+        class="rounded-full w-10 h-10 overflow-hidden border-2 border-gray-300">
+        <img src="https://st4.depositphotos.com/3538103/40645/v/950/depositphotos_406450006-stock-illustration-user-icon-vector-people-icon.jpg" alt="Foto de usuario" class="w-full h-full object-cover" />
+      </button>
+      
+      <!-- Menú desplegable -->
+      <div *ngIf="showUserMenu" class="absolute right-0 mt-2 bg-white shadow-lg rounded-md w-48 z-10">
+        <div class="p-4 border-b border-gray-300">
+          <p class="text-gray-700 font-semibold">Hola, {{ username }}</p>
+          <p class="text-sm text-gray-500">Rol: {{ role }}</p>
+        </div>
+        <ul>
+          <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer" (click)="logOut()">
+            <span class="text-red-600">Cerrar sesión</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+    
+    </div>
+  </div>
+</header>
